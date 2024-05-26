@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../services/http.service';
 
 @Component({
@@ -6,11 +6,15 @@ import { HttpService } from '../services/http.service';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements OnInit{
 
   pokemons: any[] = []
 
   constructor(private httpService: HttpService) {}
+
+  ngOnInit(){
+    this.getPokemons()
+  }
 
   getPokemons() {
     this.httpService.getPokemons().subscribe((data: any) => {
