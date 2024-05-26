@@ -24,4 +24,8 @@ export class HomePage implements OnInit {
   capitalizeFirstLetter(word: string): string {
     return word.charAt(0).toUpperCase() + word.slice(1);
   }
+
+  showPokemon(id: number){
+    console.log("ID do pokémon: " + id)
+  }
 }
