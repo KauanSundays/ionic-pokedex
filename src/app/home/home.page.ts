@@ -17,10 +17,7 @@ export class HomePage implements OnInit {
 
   getPokemons() {
     this.httpService.getPokemons().subscribe((data: any) => {
-      this.pokemons = data.results.map((pokemon: any) => {
-        pokemon.name = this.capitalizeFirstLetter(pokemon.name);
-        return pokemon;
-      });
+      this.pokemons = data.results;
     });
   }
 
