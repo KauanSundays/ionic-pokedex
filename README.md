@@ -77,6 +77,29 @@ npm install
 ionic serve
 ```
 
+## ou faça com o DOCKER 
+
+1. Clone o projeto
+```sh
+git clone https://github.com/KauanSundays/ionic-pokedex.git
+cd ionic-pokedex
+```
+
+2. Construa a imagem do projeto
+```sh
+docker build -t pokedex-kauan .
+```
+
+3. Execute o contêiner
+```sh
+docker run -d -p 8080:80 pokedex-kauan
+```
+
+4. Finalmente, acesse:
+```sh
+http://127.0.0.1:8080/
+```
+
 Para rodar o projeto, as seguintes versões são necessárias:
 
 - npm: 10.0.0
