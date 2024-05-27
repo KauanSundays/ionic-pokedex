@@ -10,17 +10,11 @@
 
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Favorite Pokemons</ion-title>
+    <ion-title>Pokémons Favoritos</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Favorite Pokemons</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
   <ion-list>
     <ion-item *ngFor="let pokemon of favoritePokemons">
       <ion-thumbnail slot="start">
