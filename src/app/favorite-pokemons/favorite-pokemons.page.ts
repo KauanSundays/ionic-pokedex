@@ -29,4 +29,8 @@ export class FavoritePokemonsPage implements OnInit {
     const favoritePokemons = JSON.parse(localStorage.getItem('favoritePokemons') || '[]');
     this.favoritePokemons = favoritePokemons;
   }
+
+  showPokemon(id: number) {
+    this.router.navigate([`/pokemon-details`, id], { state: { fromFavorites: true } });
+  }
 }

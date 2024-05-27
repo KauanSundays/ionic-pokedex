@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpService } from '../services/http.service';
-import { TranslationService } from '../translation.service'; 
-
+import { TranslationService } from '../translation.service';
 
 @Component({
   selector: 'app-pokemon-details',
@@ -11,6 +10,7 @@ import { TranslationService } from '../translation.service';
 })
 export class PokemonDetailsPage implements OnInit {
   pokemon: any;
+  fromFavorites: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -24,6 +24,11 @@ export class PokemonDetailsPage implements OnInit {
     if (id) {
       this.getPokemonDetails(id);
     }
+
+    const navigation = this.router.getCurrentNavigation();
+    if (navigation?.extras && navigation.extras.state) {
+      this.fromFavorites = navigation.extras.state['fromFavorites'];
+    }
   }
 
   getPokemonDetails(id: string) {
@@ -33,11 +38,14 @@ export class PokemonDetailsPage implements OnInit {
   }
 
   goHome() {
-    this.router.navigate(['/']);
+    if (this.fromFavorites) {
+      this.router.navigate(['/favorite-pokemons']);
+    } else {
+      this.router.navigate(['/']);
+    }
   }
 
   getTranslatedType(type: string): string {
     return this.translationService.translateType(type);
   }
-
 }
