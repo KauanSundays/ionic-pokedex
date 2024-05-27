@@ -25,3 +25,19 @@
 #container a {
   text-decoration: none;
 }
+
+ion-item {
+  --inner-padding-end: 0;
+}
+
+ion-button[slot="end"] {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+ion-icon {
+  font-size: 24px;
+}

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../services/http.service';
 import { Router } from '@angular/router';
-import { ToastController } from '@ionic/angular'; 
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -25,9 +25,11 @@ export class HomePage implements OnInit {
         return {
           name: this.capitalizeFirstLetter(pokemon.name),
           image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.url.split('/')[6]}.png`,
-          id: pokemon.url.split('/')[6]
+          id: pokemon.url.split('/')[6],
+          favorite: false
         };
       });
+      this.loadFavoritePokemons();
       this.filteredPokemons = this.pokemons;
     });
   }
@@ -40,9 +42,10 @@ export class HomePage implements OnInit {
     this.router.navigate([`/pokemon-details`, id]);
   }
 
-  async toggleFavorite(pokemon: any) {
+  async toggleFavorite(pokemon: any, event: Event) {
+    event.stopPropagation();
     pokemon.favorite = !pokemon.favorite;
-    
+
     const favoritePokemons = JSON.parse(localStorage.getItem('favoritePokemons') || '[]');
     const index = favoritePokemons.findIndex((p: any) => p.id === pokemon.id);
     if (pokemon.favorite && index === -1) {
@@ -51,7 +54,7 @@ export class HomePage implements OnInit {
       favoritePokemons.splice(index, 1);
     }
     localStorage.setItem('favoritePokemons', JSON.stringify(favoritePokemons));
-  
+
     const message = pokemon.favorite ? 'Adicionado aos favoritos' : 'Removido dos favoritos';
     await this.presentToast(message);
   }
@@ -66,23 +69,7 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
-    const favoritePokemonIds = JSON.parse(localStorage.getItem('favoritePokemonIds') || '[]');
-  
     this.getPokemons();
-  
-    this.httpService.getPokemons().subscribe((data: any) => {
-      this.pokemons = data.results.map((pokemon: any) => {
-        const id = pokemon.url.split('/')[6];
-        const isFavorite = favoritePokemonIds.includes(id);
-        return {
-          name: this.capitalizeFirstLetter(pokemon.name),
-          image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`,
-          id: id,
-          favorite: isFavorite
-        };
-      });
-      this.filteredPokemons = this.pokemons;
-    });
   }
 
   filterPokemons(event: any) {
@@ -92,5 +79,13 @@ export class HomePage implements OnInit {
 
   goToFavorites() {
     this.router.navigate(['/favorite-pokemons']);
+  }
+
+  private loadFavoritePokemons() {
+    const favoritePokemonIds = JSON.parse(localStorage.getItem('favoritePokemons') || '[]').map((p: any) => p.id);
+    this.pokemons = this.pokemons.map(pokemon => ({
+      ...pokemon,
+      favorite: favoritePokemonIds.includes(pokemon.id)
+    }));
   }
 }
