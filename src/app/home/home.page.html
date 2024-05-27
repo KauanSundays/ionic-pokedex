@@ -17,7 +17,8 @@
           <ion-label>
             <h3>{{ capitalizeFirstLetter(pokemon.name) }}</h3>
           </ion-label>
-        </ion-item>
+          <ion-icon slot="end" name="star" [color]="pokemon.favorite ? 'warning' : 'medium'" (click)="toggleFavorite(pokemon)"></ion-icon>
+        </ion-item>        
       </ion-col>
     </ion-row>
   </ion-grid>

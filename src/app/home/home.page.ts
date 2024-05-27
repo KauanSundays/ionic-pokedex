@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../services/http.service';
 import { Router } from '@angular/router';
+import { ToastController } from '@ionic/angular'; 
 
 @Component({
   selector: 'app-home',
@@ -10,7 +11,11 @@ import { Router } from '@angular/router';
 export class HomePage implements OnInit {
   pokemons: any[] = [];
 
-  constructor(private httpService: HttpService, private router: Router) {}
+  constructor(
+    private httpService: HttpService,
+    private router: Router,
+    private toastController: ToastController
+  ) {}
 
   ngOnInit() {
     this.getPokemons();
@@ -35,4 +40,20 @@ export class HomePage implements OnInit {
   showPokemon(id: number) {
     this.router.navigate([`/pokemon-details`, id]);
   }
+
+  async toggleFavorite(pokemon: any) {
+    pokemon.favorite = !pokemon.favorite;
+    const message = pokemon.favorite ? 'Adicionado aos favoritos' : 'Removido dos favoritos';
+    await this.presentToast(message);
+  }
+
+  async presentToast(message: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2000,
+      position: 'bottom'
+    });
+    toast.present();
+  }
+  
 }
