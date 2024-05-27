@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-
 import { HomePage } from './home.page';
 
 describe('HomePage', () => {
@@ -18,7 +17,15 @@ describe('HomePage', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('deve alternar o status favorito de um Pokémon', () => {
+    const pokemon = { id: 1, name: 'Pikachu', favorite: false };
+    spyOn(window.localStorage, 'getItem').and.returnValue(JSON.stringify([]));
+    spyOn(window.localStorage, 'setItem'); 
+    component.pokemons = [pokemon];
+
+    component.toggleFavorite(pokemon, new MouseEvent('click'));
+
+    expect(pokemon.favorite).toBe(true);
+    expect(localStorage.setItem).toHaveBeenCalled(); 
   });
 });
