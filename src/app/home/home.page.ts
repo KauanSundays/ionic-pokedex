@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../services/http.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -9,7 +10,7 @@ import { HttpService } from '../services/http.service';
 export class HomePage implements OnInit {
   pokemons: any[] = [];
 
-  constructor(private httpService: HttpService) {}
+  constructor(private httpService: HttpService, private router: Router) {}
 
   ngOnInit() {
     this.getPokemons();
@@ -20,7 +21,8 @@ export class HomePage implements OnInit {
       this.pokemons = data.results.map((pokemon: any) => {
         return {
           name: this.capitalizeFirstLetter(pokemon.name),
-          image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.url.split('/')[6]}.png`
+          image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.url.split('/')[6]}.png`,
+          id: pokemon.url.split('/')[6]
         };
       });
     });
@@ -30,7 +32,7 @@ export class HomePage implements OnInit {
     return word.charAt(0).toUpperCase() + word.slice(1);
   }
 
-  showPokemon(id: number){
-    console.log("ID do pokémon: " + id)
+  showPokemon(id: number) {
+    this.router.navigate([`/pokemon-details`, id]);
   }
 }
