@@ -10,6 +10,8 @@ import { ToastController } from '@ionic/angular';
 })
 export class HomePage implements OnInit {
   pokemons: any[] = [];
+  filteredPokemons: any[] = [];
+  searchTerm: string = '';
 
   constructor(
     private httpService: HttpService,
@@ -26,6 +28,7 @@ export class HomePage implements OnInit {
           id: pokemon.url.split('/')[6]
         };
       });
+      this.filteredPokemons = this.pokemons;
     });
   }
 
@@ -51,9 +54,8 @@ export class HomePage implements OnInit {
   
     const message = pokemon.favorite ? 'Adicionado aos favoritos' : 'Removido dos favoritos';
     await this.presentToast(message);
-}
+  }
 
-  
   async presentToast(message: string) {
     const toast = await this.toastController.create({
       message: message,
@@ -62,7 +64,7 @@ export class HomePage implements OnInit {
     });
     toast.present();
   }
-  
+
   ngOnInit() {
     const favoritePokemonIds = JSON.parse(localStorage.getItem('favoritePokemonIds') || '[]');
   
@@ -79,9 +81,15 @@ export class HomePage implements OnInit {
           favorite: isFavorite
         };
       });
+      this.filteredPokemons = this.pokemons;
     });
   }
-  
+
+  filterPokemons(event: any) {
+    const searchTerm = event.target.value.toLowerCase();
+    this.filteredPokemons = this.pokemons.filter(pokemon => pokemon.name.toLowerCase().includes(searchTerm));
+  }
+
   goToFavorites() {
     this.router.navigate(['/favorite-pokemons']);
   }

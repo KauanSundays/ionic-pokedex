@@ -12,10 +12,11 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <ion-searchbar [(ngModel)]="searchTerm" (ionInput)="filterPokemons($event)"></ion-searchbar>
   <ion-grid>
     <ion-row>
-      <ion-col size="12" size-md="6" size-lg="4" *ngFor="let pokemon of pokemons;let i = index ">
-        <ion-item button style="width: 100%;" (click)="showPokemon(i + 1)">
+      <ion-col size="12" size-md="6" size-lg="4" *ngFor="let pokemon of filteredPokemons; let i = index">
+        <ion-item button style="width: 100%;" (click)="showPokemon(pokemon.id)">
           <ion-thumbnail slot="start">
             <img [src]="pokemon.image" alt="{{ pokemon.name }}">
           </ion-thumbnail>
@@ -23,7 +24,7 @@
             <h3>{{ capitalizeFirstLetter(pokemon.name) }}</h3>
           </ion-label>
           <ion-icon slot="end" name="star" [color]="pokemon.favorite ? 'warning' : 'medium'" (click)="toggleFavorite(pokemon)"></ion-icon>
-        </ion-item>        
+        </ion-item>
       </ion-col>
     </ion-row>
   </ion-grid>
