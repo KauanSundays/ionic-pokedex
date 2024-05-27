@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpService } from '../services/http.service';
+import { TranslationService } from '../translation.service'; 
+
 
 @Component({
   selector: 'app-pokemon-details',
@@ -13,7 +15,8 @@ export class PokemonDetailsPage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private httpService: HttpService,
-    private router: Router
+    private router: Router,
+    private translationService: TranslationService
   ) {}
 
   ngOnInit() {
@@ -32,4 +35,9 @@ export class PokemonDetailsPage implements OnInit {
   goHome() {
     this.router.navigate(['/']);
   }
+
+  getTranslatedType(type: string): string {
+    return this.translationService.translateType(type);
+  }
+
 }

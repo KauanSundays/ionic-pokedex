@@ -1,16 +1,12 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-button (click)="goHome()">
         <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title class="ion-text-center ion-padding">
-      {{ pokemon?.name | titlecase }}
-    </ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content [fullscreen]="true">
   <ion-grid>
     <ion-row>
@@ -21,14 +17,29 @@
           </ion-card-header>
           <ion-card-content>
             <ion-img [src]="pokemon?.sprites?.front_default"></ion-img>
-            <p>Height: {{ pokemon?.height }}</p>
-            <p>Weight: {{ pokemon?.weight }}</p>
-            <p>Base Experience: {{ pokemon?.base_experience }}</p>
-            <p>Types:</p>
+            <p>Altura: {{ pokemon?.height }} cm</p>
+            <p>Peso: {{ pokemon?.weight }} kg</p>
+            <p>Experiência Base: {{ pokemon?.base_experience }}</p>
+            <p>Tipos:</p>
             <ul>
               <li *ngFor="let type of pokemon?.types">
-                {{ type.type.name | titlecase }}
+                {{ getTranslatedType(type.type.name) | titlecase }}
               </li>
+            </ul>
+            <p>Habilidades:</p>
+            <ul>
+              <li *ngFor="let ability of pokemon?.abilities">
+                {{ (ability.ability.name) | titlecase }}
+              </li>
+            </ul>
+            <p>Atributos:</p>
+            <ul>
+              <li>HP: {{ pokemon?.stats[0].base_stat }}</li>
+              <li>Ataque: {{ pokemon?.stats[1].base_stat }}</li>
+              <li>Defesa: {{ pokemon?.stats[2].base_stat }}</li>
+              <li>Ataque Especial: {{ pokemon?.stats[3].base_stat }}</li>
+              <li>Defesa Especial: {{ pokemon?.stats[4].base_stat }}</li>
+              <li>Velocidade: {{ pokemon?.stats[5].base_stat }}</li>
             </ul>
           </ion-card-content>
         </ion-card>
